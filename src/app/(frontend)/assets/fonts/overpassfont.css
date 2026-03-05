@@ -1,0 +1,16 @@
+@font-face{
+    font-family: 'Overpass';
+    src: url('./overpass.regular.ttf'),
+    url('./overpass.regular.woff'),
+    url('./overpass.regular.woff2'); 
+    font-weight: 500;
+    font-display: swap;
+}
+@font-face{
+    font-family: 'Overpass';
+    src: url('./overpass.bold.ttf'),
+    url('./overpass.bold.woff'),
+    url('./overpass.bold.woff2'); 
+    font-weight: 600;
+    font-display: swap;
+}
