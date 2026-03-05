@@ -47,6 +47,24 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 
 export const metadata: Metadata = {
   metadataBase: new URL(getServerSideURL()),
+  title: {
+    default: 'Adaptive - Portfolio Management',
+    template: '%s | Adaptive',
+  },
+  description: 'Manage and protect your client portfolios, unlock hidden income, and grow your assets.',
+  keywords: ['Adaptive', 'Portfolio Management', 'Finance', 'Investing', 'Wealth Management', 'Portfolios'],
+  authors: [{ name: 'Adaptive' }],
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      'max-video-preview': -1,
+      'max-image-preview': 'large',
+      'max-snippet': -1,
+    },
+  },
   openGraph: mergeOpenGraph(),
   twitter: {
     card: 'summary_large_image',

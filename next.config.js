@@ -4,8 +4,21 @@ import { withPayload } from '@payloadcms/next/withPayload'
 const nextConfig = {
   // Your Next.js config here
   images: {
-    domains: ['adaptive-payload-cms.vercel.app'],
-    unoptimized: true,
+    domains: ['localhost', '192.168.1.11', 'adaptive-payload-cms.vercel.app'],
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+      },
+      {
+        protocol: 'http',
+        hostname: '192.168.1.11',
+      },
+      {
+        protocol: 'https',
+        hostname: 'adaptive-payload-cms.vercel.app',
+      },
+    ],
     formats: ['image/avif', 'image/webp'],
   },
   webpack: (webpackConfig) => {
