@@ -118,57 +118,66 @@ const BlogSingleClient = ({ post }: { post: Post }) => {
   useEffect(() => {
     if (typeof window === "undefined") return;
 
+    let ticking = false;
+
     const handleScroll = () => {
       if (isClickScrolling) return;
 
-      const allHeaders = Array.from(
-        document.querySelectorAll<HTMLHeadingElement>(
-          "h2[id], h3[id]"
-        )
-      );
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const allHeaders = Array.from(
+            document.querySelectorAll<HTMLHeadingElement>(
+              "h2[id], h3[id]"
+            )
+          );
 
-      const offset = 70;
-      let minDistance = Infinity;
-      let currentId = "";
+          const offset = 70;
+          let minDistance = Infinity;
+          let currentId = "";
 
-      allHeaders.forEach((header) => {
-        const rect = header.getBoundingClientRect();
-        const distance = Math.abs(rect.top - offset);
+          allHeaders.forEach((header) => {
+            const rect = header.getBoundingClientRect();
+            const distance = Math.abs(rect.top - offset);
 
-        if (distance < minDistance) {
-          minDistance = distance;
-          currentId = header.id;
-        }
-      });
+            if (distance < minDistance) {
+              minDistance = distance;
+              currentId = header.id;
+            }
+          });
 
-      setActiveHeaderId(currentId);
+          setActiveHeaderId(currentId);
 
-      if (progressRef.current) {
-        const container =
-          progressRef.current.parentElement;
+          if (progressRef.current) {
+            const container =
+              progressRef.current.parentElement;
 
-        if (!container) return;
+            if (container && allHeaders.length > 0) {
+              const totalHeight = container.scrollHeight || 150;
+              const currentIndex = allHeaders.findIndex(
+                (h) => h.id === currentId
+              );
 
-        const totalHeight = container.scrollHeight || 150;
-        const currentIndex = allHeaders.findIndex(
-          (h) => h.id === currentId
-        );
+              const heightPerSection =
+                totalHeight / allHeaders.length;
 
-        const heightPerSection =
-          totalHeight / allHeaders.length;
+              const maxHeight = totalHeight * 0.95;
 
-        const maxHeight = totalHeight * 0.95;
+              const progressHeight = Math.min(
+                (currentIndex + 1) * heightPerSection,
+                maxHeight
+              );
 
-        const progressHeight = Math.min(
-          (currentIndex + 1) * heightPerSection,
-          maxHeight
-        );
+              progressRef.current.style.height = `${progressHeight}px`;
+            }
+          }
 
-        progressRef.current.style.height = `${progressHeight}px`;
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener("scroll", handleScroll);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     handleScroll();
 
     return () =>

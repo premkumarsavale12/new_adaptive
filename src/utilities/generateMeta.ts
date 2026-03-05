@@ -26,8 +26,11 @@ export const generateMeta = async (args: {
   const ogImage = getImageURL(doc?.meta?.image)
 
   const title = doc?.meta?.title
-    ? doc?.meta?.title + ' | Payload Website Template'
-    : 'Payload Website Template'
+    ? doc?.meta?.title + ' | Adaptive'
+    : 'Adaptive'
+
+  const urlPath = Array.isArray(doc?.slug) ? doc?.slug.join('/') : (doc?.slug || '')
+  const canonicalUrl = getServerSideURL() + (urlPath.startsWith('/') ? urlPath : `/${urlPath}`)
 
   return {
     description: doc?.meta?.description,
@@ -41,8 +44,17 @@ export const generateMeta = async (args: {
         ]
         : undefined,
       title,
-      url: Array.isArray(doc?.slug) ? doc?.slug.join('/') : '/',
+      url: canonicalUrl,
     }),
     title,
+    alternates: {
+      canonical: canonicalUrl,
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description: doc?.meta?.description || '',
+      images: ogImage ? [ogImage] : undefined,
+    },
   }
 }
