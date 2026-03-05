@@ -128,49 +128,58 @@ const BlogSingleClient = ({ post, RelatedPoste }: BlogSingleClientProps) => {
   useEffect(() => {
     if (typeof window === 'undefined') return
 
+    let ticking = false
+
     const handleScroll = () => {
       if (isClickScrolling) return
 
-      const allHeaders = Array.from(
-        document.querySelectorAll<HTMLElement>('h2[id], h3[id]')
-      )
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const allHeaders = Array.from(
+            document.querySelectorAll<HTMLElement>('h2[id], h3[id]')
+          )
 
-      const offset = 70
-      let minDistance = Infinity
-      let currentId = ''
+          const offset = 70
+          let minDistance = Infinity
+          let currentId = ''
 
-      allHeaders.forEach((header) => {
-        const rect = header.getBoundingClientRect()
-        const distance = Math.abs(rect.top - offset)
-        if (distance < minDistance) {
-          minDistance = distance
-          currentId = header.id
-        }
-      })
-      setActiveHeaderId(currentId)
+          allHeaders.forEach((header) => {
+            const rect = header.getBoundingClientRect()
+            const distance = Math.abs(rect.top - offset)
+            if (distance < minDistance) {
+              minDistance = distance
+              currentId = header.id
+            }
+          })
+          setActiveHeaderId(currentId)
 
-      // Update progress line
-      if (progressRef.current) {
-        const container = progressRef.current.parentElement
-        const totalHeight = container?.scrollHeight || 150 // fallback
-        const sections = allHeaders
-        const currentIndex = sections.findIndex((h) => h.id === currentId)
-        const totalSections = sections.length
+          // Update progress line
+          if (progressRef.current) {
+            const container = progressRef.current.parentElement
+            const totalHeight = container?.scrollHeight || 150 // fallback
+            const sections = allHeaders
+            const currentIndex = sections.findIndex((h) => h.id === currentId)
+            const totalSections = sections.length
 
-        const heightPerSection = totalHeight / totalSections
-        let progressHeight = (currentIndex + 1) * heightPerSection
+            if (totalSections > 0) {
+              const heightPerSection = totalHeight / totalSections
+              let progressHeight = (currentIndex + 1) * heightPerSection
 
-        // Cap progress height to 95% of the container
-        const maxHeight = totalHeight * 0.95
-        progressHeight = Math.min(progressHeight, maxHeight)
+              // Cap progress height to 95% of the container
+              const maxHeight = totalHeight * 0.95
+              progressHeight = Math.min(progressHeight, maxHeight)
 
-        if (progressRef.current) {
-          progressRef.current.style.height = `${progressHeight}px`
-        }
+              progressRef.current.style.height = `${progressHeight}px`
+            }
+          }
+
+          ticking = false
+        })
+        ticking = true
       }
     }
 
-    window.addEventListener('scroll', handleScroll)
+    window.addEventListener('scroll', handleScroll, { passive: true })
     handleScroll()
 
     return () => window.removeEventListener('scroll', handleScroll)
@@ -470,7 +479,7 @@ const BlogSingleClient = ({ post, RelatedPoste }: BlogSingleClientProps) => {
                         </div>
                       </div>
                     </div>
-                  
+
 
                     <div className="view w-full flex justify-between items-center sm:flex-nowrap flex-wrap gap-3">
                       <div className="left flex gap-3 justify-start items-center text-body">

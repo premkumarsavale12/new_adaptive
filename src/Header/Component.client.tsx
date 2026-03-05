@@ -177,7 +177,7 @@ export const HeaderClient: React.FC<HeaderClientProps> = ({ data }) => {
             <div className="w-full flex justify-between items-center gap-3 2xl:gap-8">
               {/* Logo */}
               <Link href="/" className="max-w-[170px]">
-                <Image src={headerLogo?.url || ''} alt="logo" width={159} height={44} priority />
+                <Image src={headerLogo?.url || ''} alt="logo" width={159} height={44} priority fetchPriority="high" />
               </Link>
 
               {/* Navigation */}
