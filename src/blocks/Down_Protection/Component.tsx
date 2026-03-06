@@ -38,6 +38,8 @@ export const Down_Protection: React.FC<Down_ProtectionProps> = ({
                 <RichText
                   data={Description}
                   enableGutter={false}
+                  enableProse={false}
+                  className="mb-0"
                 />
               </div>
             )}
@@ -61,7 +63,7 @@ export const Down_Protection: React.FC<Down_ProtectionProps> = ({
             {/* Content RIGHT */}
             {richText && (
               <div className="p-text-right font-inter space-y-4 text-black-300 lg:w-[58%] w-full">
-                <RichText data={richText} enableGutter={false} />
+                <RichText data={richText} enableGutter={false} enableProse={false} className="mb-0" />
               </div>
             )}
           </div>

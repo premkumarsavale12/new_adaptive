@@ -38,7 +38,7 @@ export const Understanding_Risk: React.FC<UnderstandingRiskProps> = ({
   bottomdescription,
 }) => {
   return (
-    <section className="t-section forecast-section lg:py-[150px] md:py-[80px] sm:py-[50px] py-6 h-full">
+    <section className="t-section forecast-section lg:py[150px] md:py-[80px] sm:py-[50px] py-6 h-full">
       <div className="container">
         <div className="inner">
           {/* Top Section */}
