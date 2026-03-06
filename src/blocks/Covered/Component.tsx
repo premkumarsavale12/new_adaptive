@@ -39,7 +39,8 @@ export const Covered: React.FC<CoveredProps> = ({ Heading, richText, SubHeading,
                             <div
                                 className="*:text-black-300"
 
-                            >      {richText && <RichText data={richText} enableGutter={false} />}     </div>
+                            >      {richText && <RichText data={richText} enableGutter={false} enableProse={false}
+                                className="mb-1" />}     </div>
                             <div className="features">
                                 <div className="flex xl:gap-16 gap-8 lg:flex-row flex-col">
                                     <div className="md:space-y-8 space-y-6 lg:w-[50%] w-full">
