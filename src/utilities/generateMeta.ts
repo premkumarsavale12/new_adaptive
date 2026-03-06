@@ -30,12 +30,28 @@ export const generateMeta = async (args: {
     : 'Adaptive'
 
   const urlPath = Array.isArray(doc?.slug) ? doc?.slug.join('/') : (doc?.slug || '')
-  const canonicalUrl = getServerSideURL() + (urlPath.startsWith('/') ? urlPath : `/${urlPath}`)
+  const serverUrl = getServerSideURL()
+  const canonicalUrl = serverUrl + (urlPath.startsWith('/') ? urlPath : `/${urlPath}`)
 
   return {
-    description: doc?.meta?.description,
+    metadataBase: new URL(serverUrl || 'http://localhost:3000'),
+    title,
+    description: doc?.meta?.description || 'Adaptive Template',
+    authors: [{ name: 'Adaptive' }],
+    keywords: ['Adaptive', 'Next.js', 'React', 'Payload CMS'],
+    robots: {
+      index: true,
+      follow: true,
+      googleBot: {
+        index: true,
+        follow: true,
+        'max-video-preview': -1,
+        'max-image-preview': 'large',
+        'max-snippet': -1,
+      },
+    },
     openGraph: mergeOpenGraph({
-      description: doc?.meta?.description || '',
+      description: doc?.meta?.description || 'Adaptive Template',
       images: ogImage
         ? [
           {
@@ -46,14 +62,13 @@ export const generateMeta = async (args: {
       title,
       url: canonicalUrl,
     }),
-    title,
     alternates: {
       canonical: canonicalUrl,
     },
     twitter: {
       card: 'summary_large_image',
       title,
-      description: doc?.meta?.description || '',
+      description: doc?.meta?.description || 'Adaptive Template',
       images: ogImage ? [ogImage] : undefined,
     },
   }
