@@ -20,7 +20,7 @@ export const Down_Protection: React.FC<Down_ProtectionProps> = ({
   richText,
 }) => {
   return (
-    <section className="t-section market-section lg:py-[150px] md:py-[80px] sm:py-[50px] py-6 w-full border-b border-black-200">
+    <section className="t-section market-section lg:py[150px] md:py-[80px] sm:py-[50px] py-6 w-full border-b-[1px] border-b-black-200 border-b-solid">
       <div className="container">
         <div className="inner md:space-y-[48px] space-y-6">
           {/* Top Section */}
@@ -36,7 +36,6 @@ export const Down_Protection: React.FC<Down_ProtectionProps> = ({
             {Description && (
               <div className="text text-body font-inter font-normal text-black-300">
                 <RichText
-                  className="mb-0"
                   data={Description}
                   enableGutter={false}
                 />
